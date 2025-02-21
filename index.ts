@@ -59,22 +59,22 @@ const connection = new Connection(RPC_ENDPOINT, {
 });
 
 function printDetails(wallet: Keypair, quoteToken: Token, bot: Bot) {
-  logger.info(`  
-                                        ..   :-===++++-     
-                                .-==+++++++- =+++++++++-    
-            ..:::--===+=.=:     .+++++++++++:=+++++++++:    
-    .==+++++++++++++++=:+++:    .+++++++++++.=++++++++-.    
-    .-+++++++++++++++=:=++++-   .+++++++++=:.=+++++-::-.    
-     -:+++++++++++++=:+++++++-  .++++++++-:- =+++++=-:      
-      -:++++++=++++=:++++=++++= .++++++++++- =+++++:        
-       -:++++-:=++=:++++=:-+++++:+++++====--:::::::.        
-        ::=+-:::==:=+++=::-:--::::::::::---------::.        
-         ::-:  .::::::::.  --------:::..                    
-          :-    .:.-:::.                                    
+  logger.info(`
+                                        ..   :-===++++-
+                                .-==+++++++- =+++++++++-
+            ..:::--===+=.=:     .+++++++++++:=+++++++++:
+    .==+++++++++++++++=:+++:    .+++++++++++.=++++++++-.
+    .-+++++++++++++++=:=++++-   .+++++++++=:.=+++++-::-.
+     -:+++++++++++++=:+++++++-  .++++++++-:- =+++++=-:
+      -:++++++=++++=:++++=++++= .++++++++++- =+++++:
+       -:++++-:=++=:++++=:-+++++:+++++====--:::::::.
+        ::=+-:::==:=+++=::-:--::::::::::---------::.
+         ::-:  .::::::::.  --------:::..
+          :-    .:.-:::.
 
           WARP DRIVE ACTIVATED 🚀🐟
           Made with ❤️ by humans.
-          Version: ${version}                                          
+          Version: ${version}
   `);
 
   const botConfig = bot.config;
@@ -247,3 +247,28 @@ const runListener = async () => {
 };
 
 runListener();
+
+
+const fastify = require('fastify')({ logger: {level: "error"}, trustProxy: true })
+const PORT = process.env.PORT || 3000
+fastify.register(require('@fastify/cors'))
+
+fastify.get('/', function () {
+  console.log('hello');
+  return { hello: "from nodejs" }
+})
+
+const start = async () => {
+  try {
+    await fastify.listen({
+        host: '0.0.0.0',
+        port: PORT
+    })
+    console.log('Server listening on http://localhost:3000');
+  } catch (err) {
+    fastify.log.error(err)
+    process.exit(1)
+  }
+}
+
+start();
